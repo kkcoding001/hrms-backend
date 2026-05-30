@@ -24,10 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		// Spring Security’s built-in User object
 		// Spring Security understands UserDetails object
 		// convert DB user into security's user 
+		
+		System.out.println("User: " + user.getUsername());
+		System.out.println("Role: " + user.getRole());
+		
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole())
+                .roles(user.getRole().name())
                 .build();
     }
 }

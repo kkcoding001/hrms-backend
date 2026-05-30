@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.jwtauth.entity.User;
 import com.example.jwtauth.repository.UserRepository;
+import com.example.jwtauth.enums.Role;
 
 @Service
 public class UserService {
@@ -23,7 +24,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
 		// default role
-		user.setRole("USER");
+		user.setRole(Role.EMPLOYEE);
 		
 		return userRepository.save(user);
 	}

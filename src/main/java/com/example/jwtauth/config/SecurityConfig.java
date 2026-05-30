@@ -40,8 +40,18 @@ public class SecurityConfig {
 	            ex.authenticationEntryPoint(jwtAuthEntryPoint)
 	        )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll() // public
-                .anyRequest().authenticated() // else secured
+            		.requestMatchers("/auth/**").permitAll()
+
+            	    .requestMatchers("/admin/**")
+            	    .hasRole("ADMIN")
+
+            	    .requestMatchers("/hr/**")
+            	    .hasAnyRole("ADMIN", "HR")
+
+            	    .requestMatchers("/employee/**")
+            	    .hasAnyRole("ADMIN", "HR", "EMPLOYEE")
+
+            	    .anyRequest().authenticated() // else secured
             );
         
         
