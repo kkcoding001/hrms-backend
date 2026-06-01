@@ -64,4 +64,28 @@ public class DepartmentService {
 	
 	
 	
+	// Update department
+	
+	public Department updateDepartmentById(Long id, Department request) {
+		
+		Department department = getDepartmentById(id);
+		
+		Optional<Department> existingDepartment = departmentRepository.findByName(request.getName());
+		
+		if(existingDepartment.isPresent() &&  // If department exists with that name
+				!existingDepartment.get().getId()  // Id not same with existing department
+				.equals(department.getId())) {
+			
+			throw new RuntimeException("Department name already exists");
+		}
+		else {
+			department.setName(request.getName());
+			department.setDescription(request.getDescription());
+		}
+		
+		return departmentRepository.save(department);
+		
+	}
+	
+	
 }
