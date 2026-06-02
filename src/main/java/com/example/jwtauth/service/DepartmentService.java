@@ -1,14 +1,14 @@
 package com.example.jwtauth.service;
 
-import java.util.Optional;
+import java.util.Optional; 
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.jwtauth.dto.DepartmentRequest;
 import com.example.jwtauth.entity.Department;
+import com.example.jwtauth.exception.DepartmentAlreadyExistsException;
+import com.example.jwtauth.exception.DepartmentNotFoundException;
 import com.example.jwtauth.repository.DepartmentRepository;
 
 @Service
@@ -29,7 +29,7 @@ public class DepartmentService {
 				.findByName(request.getName())
 				.isPresent()) {
 			
-			throw new RuntimeErrorException(null, "Department already exists");
+			throw new DepartmentAlreadyExistsException("Department already exists");
 		}
 		
 		Department department = new Department();
@@ -50,7 +50,7 @@ public class DepartmentService {
 								.findById(id);
 		
 		return department
-				.orElseThrow( () -> new RuntimeException("Department not exists"));
+				.orElseThrow( () -> new DepartmentNotFoundException("Department not found"));
 	}
 	
 	
@@ -66,22 +66,24 @@ public class DepartmentService {
 	
 	// Update department
 	
-	public Department updateDepartmentById(Long id, Department request) {
+	public Department updateDepartmentById(Long id, DepartmentRequest request) {
 		
 		Department department = getDepartmentById(id);
 		
 		Optional<Department> existingDepartment = departmentRepository.findByName(request.getName());
 		
+		// if throw immediately exits
+		
 		if(existingDepartment.isPresent() &&  // If department exists with that name
 				!existingDepartment.get().getId()  // Id not same with existing department
 				.equals(department.getId())) {
 			
-			throw new RuntimeException("Department name already exists");
+			throw new DepartmentAlreadyExistsException("Department name already exists");
 		}
-		else {
-			department.setName(request.getName());
-			department.setDescription(request.getDescription());
-		}
+		
+		department.setName(request.getName());
+		department.setDescription(request.getDescription());
+		
 		
 		return departmentRepository.save(department);
 		

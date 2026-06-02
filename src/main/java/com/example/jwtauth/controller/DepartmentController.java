@@ -72,12 +72,12 @@ public class DepartmentController {
 		
 	}
 	
-	
+	 
 	// Update department
 	@PutMapping("/{id}")
 	public ResponseEntity<Department> updateDepartmentById(
 			@PathVariable Long id,
-			@RequestBody Department request) {
+			@RequestBody DepartmentRequest request) {
 		
 		Department department = departmentService.updateDepartmentById(id, request);
 		
