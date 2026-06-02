@@ -88,4 +88,30 @@ public class DepartmentService {
 	}
 	
 	
+	// Disable department
+	
+	public Department disableDepartment(Long id) {
+		
+		Department department = getDepartmentById(id);
+		
+		department.setActive(false);
+		
+		return departmentRepository.save(department);
+		 
+	}
+	
+	
+	// Enable department
+	
+		public Department enableDepartment(Long id) {
+			
+			Department department = getDepartmentById(id);
+			
+			department.setActive(true);
+			
+			return departmentRepository.save(department);
+			 
+		}
+	
+	
 }
