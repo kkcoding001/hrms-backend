@@ -119,6 +119,10 @@ public class JwtFilter extends OncePerRequestFilter {
 			
 		}
 		
+		System.out.println(
+			    SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+			);
+		
 		filterChain.doFilter(request, response);
 	}
 	

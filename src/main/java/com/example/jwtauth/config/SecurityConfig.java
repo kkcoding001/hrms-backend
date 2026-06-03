@@ -1,5 +1,6 @@
 package com.example.jwtauth.config;
-import org.springframework.beans.factory.annotation.Autowired; 
+
+import org.springframework.beans.factory.annotation.Autowired;  
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
+
+import com.example.jwtauth.security.CustomAccessDeniedHandler;
 import com.example.jwtauth.security.JwtAuthEntryPoint;
 import com.example.jwtauth.security.JwtFilter;
 
@@ -22,6 +26,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private JwtAuthEntryPoint jwtAuthEntryPoint;
+	
+	@Autowired
+	private CustomAccessDeniedHandler accessDeniedHandler;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -38,6 +45,7 @@ public class SecurityConfig {
 	        )
             .exceptionHandling(ex ->
 	            ex.authenticationEntryPoint(jwtAuthEntryPoint)
+	            .accessDeniedHandler(accessDeniedHandler)
 	        )
             .authorizeHttpRequests(auth -> auth
             		.requestMatchers("/auth/**").permitAll()
@@ -49,6 +57,24 @@ public class SecurityConfig {
             	    .hasAnyRole("ADMIN", "HR")
 
             	    .requestMatchers("/employee/**")
+            	    .hasAnyRole("ADMIN", "HR", "EMPLOYEE")
+            	    
+            	    // Department APIs
+            	    
+            	    .requestMatchers(HttpMethod.POST,
+            	            "/departments")
+            	    .hasRole("ADMIN")
+
+            	    .requestMatchers(HttpMethod.PUT,
+            	            "/departments/**")
+            	    .hasRole("ADMIN")
+
+            	    .requestMatchers(HttpMethod.PATCH,
+            	            "/departments/**")
+            	    .hasRole("ADMIN")
+
+            	    .requestMatchers(HttpMethod.GET,
+            	            "/departments/**")
             	    .hasAnyRole("ADMIN", "HR", "EMPLOYEE")
 
             	    .anyRequest().authenticated() // else secured

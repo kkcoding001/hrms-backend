@@ -20,6 +20,8 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException)
             throws IOException, ServletException {
 
+    	System.out.println("AuthenticationEntryPoint called");
+    	
         response.sendError(
                 HttpServletResponse.SC_UNAUTHORIZED,
                 "Unauthorized"
