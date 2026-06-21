@@ -1,6 +1,6 @@
 package com.example.jwtauth.security;
 
-import java.io.IOException;
+import java.io.IOException; 
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
