@@ -1,7 +1,8 @@
 package com.example.jwtauth.service;
 
+import java.util.Optional; 
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.jwtauth.dto.EmployeeRequest;
 import com.example.jwtauth.entity.Employee;
@@ -16,6 +17,8 @@ public class EmployeeService {
 	    this.employeeRepository = employeeRepository;
 	}
 
+	
+	// Create Employee
 	public Employee createEmployee(EmployeeRequest request) {
 		
 		if(employeeRepository
@@ -35,6 +38,15 @@ public class EmployeeService {
 		
 		return employeeRepository.save(employee);
 		
+	}
+	
+	
+	// Get Employee By Id
+	public Employee getEmployeeById(Long id) {
 		
+		Optional<Employee> employee = employeeRepository.findById(id);
+		
+		return employee
+				.orElseThrow(() -> new RuntimeException("Employee not found with this id"));
 	}
 }
