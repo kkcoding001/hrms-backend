@@ -57,4 +57,32 @@ public class EmployeeService {
 		
 		return employeeRepository.findAll();
 	}
+	
+	
+	// Update employee
+	public Employee updateEmployeeById(Long id, EmployeeRequest request) {
+		
+		Employee employee = getEmployeeById(id);
+		
+		Optional<Employee> existingEmployee = employeeRepository.findByEmail(request.getEmail());
+		
+		if(existingEmployee.isPresent() // If employee exists with that name
+				&&
+			!existingEmployee.get().getId() // Id not match with existing employee
+			.equals(employee.getId()))
+		{
+			throw new RuntimeException("Email belongs to another employee");
+		}
+		
+		employee.setFirstName(request.getFirstName());
+		employee.setLastName(request.getLastName());
+		employee.setEmail(request.getEmail());
+		employee.setPhone(request.getPhone());
+		employee.setSalary(request.getSalary());
+		
+		return employeeRepository.save(employee);
+		
+		
+	}
+	
 }
