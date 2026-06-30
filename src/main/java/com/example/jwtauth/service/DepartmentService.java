@@ -66,7 +66,7 @@ public class DepartmentService {
 	
 	// Update department
 	
-	public Department updateDepartmentById(Long id, DepartmentRequest request) {
+	public Department updateDepartment(Long id, DepartmentRequest request) {
 		
 		Department department = getDepartmentById(id);
 		

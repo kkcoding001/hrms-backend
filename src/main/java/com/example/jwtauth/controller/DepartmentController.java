@@ -79,7 +79,7 @@ public class DepartmentController {
 			@PathVariable Long id,
 			@RequestBody DepartmentRequest request) {
 		
-		Department department = departmentService.updateDepartmentById(id, request);
+		Department department = departmentService.updateDepartment(id, request);
 		
 		return ResponseEntity
 				.status(HttpStatus.OK)

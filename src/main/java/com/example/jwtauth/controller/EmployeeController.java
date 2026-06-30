@@ -1,5 +1,7 @@
 package com.example.jwtauth.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,5 +44,15 @@ public class EmployeeController {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(employee);
+	}
+	
+	@GetMapping 
+	public ResponseEntity<List<Employee>> getAllEmployee() {
+		
+		List<Employee> employee = employeeService.getAllEmployee();
+		
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(employee); 
 	}
 }

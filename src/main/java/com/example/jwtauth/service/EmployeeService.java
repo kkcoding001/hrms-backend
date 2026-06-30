@@ -1,5 +1,6 @@
 package com.example.jwtauth.service;
 
+import java.util.List;
 import java.util.Optional; 
 
 import org.springframework.stereotype.Service;
@@ -48,5 +49,12 @@ public class EmployeeService {
 		
 		return employee
 				.orElseThrow(() -> new RuntimeException("Employee not found with this id"));
+	}
+	
+	
+	// Get all employee
+	public List<Employee> getAllEmployee() {
+		
+		return employeeRepository.findAll();
 	}
 }
