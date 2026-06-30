@@ -85,4 +85,26 @@ public class EmployeeService {
 		
 	}
 	
+	
+	
+	// Disable Employee
+	public Employee disableEmployee(Long id) {
+		
+		Employee employee = getEmployeeById(id);
+		
+		employee.setActive(false);
+		
+		return employeeRepository.save(employee);
+	}
+	
+	// Enable Employee
+	public Employee enableEmployee(Long id) {
+			
+		Employee employee = getEmployeeById(id);
+		
+		employee.setActive(true);
+		
+		return employeeRepository.save(employee);
+	}
+	
 }
