@@ -77,6 +77,28 @@ public class SecurityConfig {
             	            "/departments/**")
             	    .hasAnyRole("ADMIN", "HR", "EMPLOYEE")
 
+            	    
+            	    
+            	    
+            	    // Employee APIs
+            	    
+            	    .requestMatchers(HttpMethod.POST,
+            	            "/employees")
+            	    .hasAnyRole("ADMIN", "HR")
+
+            	    .requestMatchers(HttpMethod.PUT,
+            	            "/employees/**")
+            	    .hasAnyRole("ADMIN", "HR")
+
+            	    .requestMatchers(HttpMethod.PATCH,
+            	            "/employees/**")
+            	    .hasRole("ADMIN")
+
+            	    .requestMatchers(HttpMethod.GET,
+            	            "/employees/**")
+            	    .hasAnyRole("ADMIN", "HR", "EMPLOYEE")
+            	    
+            	    
             	    .anyRequest().authenticated() // else secured
             );
         

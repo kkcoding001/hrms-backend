@@ -1,6 +1,6 @@
 package com.example.jwtauth.service;
 
-import java.util.List;
+import java.util.List; 
 import java.util.Optional; 
 
 import org.springframework.stereotype.Service;
@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.jwtauth.dto.EmployeeRequest;
 import com.example.jwtauth.entity.Employee;
 import com.example.jwtauth.repository.EmployeeRepository;
+import com.example.jwtauth.exception.EmployeeNotFoundException;
+import com.example.jwtauth.exception.EmployeeAlreadyExistsException;
 
 @Service
 public class EmployeeService {
@@ -26,7 +28,7 @@ public class EmployeeService {
 				.findByEmail(request.getEmail())
 				.isPresent()) {
 			
-			throw new RuntimeException("Employee already exists");
+			throw new EmployeeAlreadyExistsException("Employee already exists");
 		}
 		
 		Employee employee = new Employee();
@@ -48,7 +50,7 @@ public class EmployeeService {
 		Optional<Employee> employee = employeeRepository.findById(id);
 		
 		return employee
-				.orElseThrow(() -> new RuntimeException("Employee not found with this id"));
+				.orElseThrow(() -> new EmployeeNotFoundException("Employee not found with this id"));
 	}
 	
 	
@@ -71,7 +73,7 @@ public class EmployeeService {
 			!existingEmployee.get().getId() // Id not match with existing employee
 			.equals(employee.getId()))
 		{
-			throw new RuntimeException("Email belongs to another employee");
+			throw new EmployeeAlreadyExistsException("Email belongs to another employee");
 		}
 		
 		employee.setFirstName(request.getFirstName());
