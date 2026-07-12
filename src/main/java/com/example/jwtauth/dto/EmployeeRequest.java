@@ -1,5 +1,7 @@
 package com.example.jwtauth.dto;
 
+import com.example.jwtauth.entity.Department;
+
 public class EmployeeRequest {
 	
 	private String firstName;
@@ -11,6 +13,8 @@ public class EmployeeRequest {
     private String phone;
 
     private Double salary;
+    
+    private Long departmentId;
 
 	public String getFirstName() {
 		return firstName;
@@ -51,6 +55,16 @@ public class EmployeeRequest {
 	public void setSalary(Double salary) {
 		this.salary = salary;
 	}
+
+	public Long getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
+	}
+	
+	
     
     
     

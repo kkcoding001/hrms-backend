@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.jwtauth.dto.EmployeeRequest;
+import com.example.jwtauth.entity.Department;
 import com.example.jwtauth.entity.Employee;
+import com.example.jwtauth.repository.DepartmentRepository;
 import com.example.jwtauth.repository.EmployeeRepository;
 import com.example.jwtauth.exception.EmployeeNotFoundException;
 import com.example.jwtauth.exception.EmployeeAlreadyExistsException;
@@ -16,8 +18,11 @@ public class EmployeeService {
 	
 	private final EmployeeRepository employeeRepository;
 	
-	public EmployeeService(EmployeeRepository employeeRepository) {
+	private final DepartmentRepository departmentRepository;
+	
+	public EmployeeService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
 	    this.employeeRepository = employeeRepository;
+	    this.departmentRepository = departmentRepository;
 	}
 
 	
@@ -31,6 +36,10 @@ public class EmployeeService {
 			throw new EmployeeAlreadyExistsException("Employee already exists");
 		}
 		
+		Department department = departmentRepository
+		        .findById(request.getDepartmentId())
+		        .orElseThrow(() -> new RuntimeException("Department not found"));
+		
 		Employee employee = new Employee();
 		
 		employee.setFirstName(request.getFirstName());
@@ -38,6 +47,7 @@ public class EmployeeService {
 		employee.setEmail(request.getEmail());
 		employee.setPhone(request.getPhone());
 		employee.setSalary(request.getSalary());
+		employee.setDepartment(department);
 		
 		return employeeRepository.save(employee);
 		
@@ -76,11 +86,16 @@ public class EmployeeService {
 			throw new EmployeeAlreadyExistsException("Email belongs to another employee");
 		}
 		
+		Department department = departmentRepository
+		        .findById(request.getDepartmentId())
+		        .orElseThrow(() -> new RuntimeException("Department not found"));
+		
 		employee.setFirstName(request.getFirstName());
 		employee.setLastName(request.getLastName());
 		employee.setEmail(request.getEmail());
 		employee.setPhone(request.getPhone());
 		employee.setSalary(request.getSalary());
+		employee.setDepartment(department);
 		
 		return employeeRepository.save(employee);
 		

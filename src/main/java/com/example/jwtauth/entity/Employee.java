@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +29,11 @@ public class Employee {
 	private Double salary;
 
 	private boolean active = true;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "department_id") // create column in employees
+	private Department department;
 
 	
 	public Long getId() {
@@ -84,6 +91,18 @@ public class Employee {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	
+	
+	
 
 	
 	
